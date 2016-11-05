@@ -18,24 +18,25 @@
 
     $routeController = $route[0]; 
     $routeAction = isset($route[1]) ? $route[1] : '';
-    $routeParams = array_slice($route, 2); 
+    $routeParams = array_slice($route, 2);
+
     $controlFile = __DIR__.'/Controllers/'.$routeController.'Controller.php';
 
-    if (file_exists($ctrlPath)) {
+    if (file_exists($controlFile)) {
 
       require_once(__DIR__.'/Models/'.ucfirst($routeController).'Model.php');
       require_once(__DIR__.'/Controllers/'.ucfirst($routeController).'Controller.php');
       require_once(__DIR__.'/Views/'.ucfirst($routeController).'View.php');
 
-      $modelName = ucfirst($routeController).'Model';
-      $controllerName = ucfirst($routeController).'Controller';
-      $viewName = ucfirst($routeController).'View';
+      $model = ucfirst($routeController).'Model';
+      $controller = ucfirst($routeController).'Controller';
+      $view = ucfirst($routeController).'View';
 
-      $controllerObj = new $controllerName( new $modelName );
-      $viewObj = new $viewName( $controllerObj, new $modelName );
+      $controllerInstance = new $controller(new $model);
+      $viewInstance = new $view( $controllerInstance, new $model );
 
-      if ($requestedAction != '') {
-        print $viewObj->$routeAction($routeParams);
+      if ($routeAction != '') {
+        print $viewInstance->$routeAction($routeParams);
       }
 
     } else {
