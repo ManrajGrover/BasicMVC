@@ -2,7 +2,7 @@
 
   $route = isset($_SERVER['PATH_INFO']) ? explode('/', ltrim($_SERVER['PATH_INFO'],'/')) : '/';
 
-  if ($route == '/') {
+  if ($route == '/' || $route[0] == 'index') {
 
     require_once(__DIR__.'/Models/IndexModel.php');
     require_once(__DIR__.'/Controllers/IndexController.php');
